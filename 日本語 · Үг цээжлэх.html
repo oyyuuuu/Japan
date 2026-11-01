@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<title>日本語 · Үг цээжлэх</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f5f1ea;--paper:#fffdf9;--ink:#211e1b;--muted:#857c72;--line:#ebe3d7;
+  --red:#d2412f;--red2:#ef6a4f;--red-soft:#fbe5df;
+  --green:#2f9e63;--green-soft:#dcf2e5;--gold:#e0a325;--indigo:#3d4f7c;
+  --shadow:0 8px 28px rgba(70,40,20,.10);--shadow-s:0 2px 10px rgba(70,40,20,.07);
+}
+@media (prefers-color-scheme: dark){:root{
+  --bg:#121116;--paper:#1d1b22;--ink:#f3eee7;--muted:#a1988e;--line:#2e2a35;
+  --red:#ff6650;--red2:#ff8a63;--red-soft:#3d221e;--green:#4fd18b;--green-soft:#173826;
+  --indigo:#a8b8e6;--shadow:0 8px 28px rgba(0,0,0,.45);--shadow-s:0 2px 10px rgba(0,0,0,.35);
+}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0}
+html,body{height:100%;background:var(--bg);color:var(--ink);font-family:'Inter','Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;overflow:hidden;overscroll-behavior:none}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer;-webkit-user-select:none;user-select:none}
+.jp{font-family:'Noto Sans JP',sans-serif}
+
+/* ---------- shell ---------- */
+.shell{position:relative;height:100dvh;max-width:520px;margin:0 auto;display:flex;flex-direction:column;background:var(--bg);overflow:hidden}
+.appbar{flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:calc(12px + env(safe-area-inset-top,0)) 20px 10px}
+.appbar h1{font-size:24px;font-weight:800;letter-spacing:-.5px}
+.fire{display:flex;align-items:center;gap:6px;background:var(--paper);border:1px solid var(--line);padding:7px 12px;border-radius:20px;font-weight:700;font-size:14px;box-shadow:var(--shadow-s)}
+.content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:4px 18px 24px;overscroll-behavior:contain}
+.pane{display:none}
+.pane.on{display:block;animation:up .28s ease}
+@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+.tabbar{flex-shrink:0;display:grid;grid-template-columns:repeat(4,1fr);background:var(--paper);border-top:1px solid var(--line);padding:8px 6px calc(8px + env(safe-area-inset-bottom,0))}
+.tab{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0;font-size:11px;font-weight:600;color:var(--muted);border-radius:14px;transition:color .15s}
+.tab svg{width:24px;height:24px}
+.tab.on{color:var(--red)}
+.tab.on .ic{background:var(--red-soft)}
+.tab .ic{width:52px;height:30px;border-radius:16px;display:grid;place-items:center;transition:background .2s}
+
+.ico{display:inline-flex;width:1em;height:1em;vertical-align:-0.15em}
+.ico svg{width:100%;height:100%}
+.fire{color:var(--red)}.fire span{color:var(--ink)}
+.st .e{font-size:22px;color:var(--red);height:24px}
+.st .e.g{color:var(--green)}.st .e.y{color:var(--gold)}
+.bigbtn .bi{font-size:24px;color:var(--red)}
+.bigbtn.g .bi{color:var(--green)}
+.weakcard .bi{font-size:20px}
+.emoji{font-size:72px;color:var(--gold)}
+.qs{display:flex;align-items:center;gap:4px;justify-content:flex-end;color:var(--red)}
+.qs span{color:var(--muted)}
+.sheet .sh svg{width:24px;height:24px}
+.badge svg{width:14px;height:14px;vertical-align:-2px}
+.fsay{position:absolute;top:14px;right:14px;z-index:4;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;color:var(--red);background:var(--red-soft);z-index:2}
+.fsay svg{width:22px;height:22px}
+.face .bigw{font-size:72px}.face .bigw.s{font-size:54px}.face .bigw.xs{font-size:38px}.face .bigw.xxs{font-size:28px}
+.face .mn{font-size:30px}
+/* ---------- home ---------- */
+.hello{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--red),var(--red2));color:#fff;border-radius:26px;padding:22px 20px;box-shadow:0 12px 30px rgba(210,65,47,.32);display:flex;align-items:center;gap:16px}
+.hello::after{content:"日本";position:absolute;left:-10px;bottom:-52px;font-family:'Noto Serif JP',serif;font-size:150px;opacity:.10;font-weight:700}
+.hello .t1{font-family:'Noto Sans JP';font-size:14px;opacity:.9}
+.hello .t2{font-size:21px;font-weight:800;margin:4px 0 6px;line-height:1.2}
+.hello .t3{font-size:13px;opacity:.9}
+.ring{--p:0;width:78px;height:78px;border-radius:50%;flex-shrink:0;display:grid;place-items:center;background:conic-gradient(#fff calc(var(--p)*1%),rgba(255,255,255,.25) 0)}
+.ring>div{width:62px;height:62px;border-radius:50%;background:var(--red);display:grid;place-items:center;font-weight:800;font-size:16px}
+.statrow{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 4px}
+.st{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:12px 8px;text-align:center;box-shadow:var(--shadow-s)}
+.st .e{font-size:18px}
+.st b{display:block;font-size:19px;font-weight:800;margin-top:2px}
+.st span{font-size:11px;color:var(--muted)}
+.h2{display:flex;justify-content:space-between;align-items:center;margin:22px 2px 10px}
+.h2 h2{font-size:17px;font-weight:800}
+.h2 button{font-size:13px;font-weight:600;color:var(--red)}
+.big2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.bigbtn{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:18px 16px;text-align:left;box-shadow:var(--shadow-s);transition:transform .12s}
+.bigbtn:active,.lcard:active,.tile:active,.mbtn:active{transform:scale(.96)}
+.bigbtn .bi{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:24px;margin-bottom:12px;background:var(--red-soft)}
+.bigbtn.g .bi{background:var(--green-soft)}
+.bigbtn b{display:block;font-size:16px}
+.bigbtn span{font-size:12px;color:var(--muted)}
+.weakcard{display:flex;align-items:center;gap:14px;background:var(--paper);border:1.5px dashed var(--red);border-radius:20px;padding:14px 16px;margin-top:12px;width:100%;text-align:left}
+.weakcard .bi{width:40px;height:40px;border-radius:12px;background:var(--red-soft);display:grid;place-items:center;color:var(--red);font-weight:800}
+.weakcard b{display:block;font-size:15px}.weakcard span{font-size:12px;color:var(--muted)}
+.hscroll{display:flex;gap:12px;overflow-x:auto;margin:0 -18px;padding:2px 18px 8px;scroll-snap-type:x mandatory;scrollbar-width:none}
+.hscroll::-webkit-scrollbar{display:none}
+.lcard{flex:0 0 136px;scroll-snap-align:start;background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:16px;text-align:left;box-shadow:var(--shadow-s);transition:transform .12s}
+.lcard .n{font-family:'Noto Serif JP',serif;font-size:34px;color:var(--red);line-height:1}
+.lcard .l{font-size:13px;font-weight:700;margin-top:8px}
+.lcard .c{font-size:11.5px;color:var(--muted);margin-top:2px}
+.bar{height:6px;border-radius:6px;background:var(--line);overflow:hidden;margin-top:10px}
+.bar i{display:block;height:100%;background:var(--green);border-radius:6px}
+
+/* ---------- picker ---------- */
+.intro{font-size:14px;color:var(--muted);margin:2px 2px 4px}
+.kgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.lgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+.tile{position:relative;background:var(--paper);border:1.5px solid var(--line);border-radius:18px;padding:12px 6px 10px;text-align:center;transition:transform .12s,background .15s,border-color .15s;overflow:hidden}
+.tile .tn{display:block;font-family:'Noto Serif JP',serif;font-size:24px;font-weight:700;line-height:1.1;color:var(--ink)}
+.tile .tl{display:block;font-size:11px;color:var(--muted);margin-top:3px;font-weight:600}
+.tile .tb{position:absolute;left:0;bottom:0;height:4px;background:var(--green)}
+.tile.k{display:flex;align-items:center;gap:12px;text-align:left;padding:12px 14px}
+.tile.k .tn{font-size:30px;color:var(--red)}
+.tile.k .tl{font-size:13px;color:var(--ink)}
+.tile.k small{display:block;font-size:11px;color:var(--muted)}
+.tile.sel{background:var(--red);border-color:var(--red)}
+.tile.sel .tn,.tile.sel .tl,.tile.sel small{color:#fff !important}
+.tile.sel .tb{background:rgba(255,255,255,.55)}
+.card-s{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:4px 16px;box-shadow:var(--shadow-s)}
+.row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;gap:10px}
+.row+.row{border-top:1px solid var(--line)}
+.row label{font-size:14px;font-weight:500}
+.seg{display:flex;background:var(--bg);border-radius:12px;padding:3px;gap:2px}
+.seg button{padding:7px 11px;border-radius:9px;font-size:12.5px;color:var(--muted);font-weight:600;white-space:nowrap}
+.seg button.on{background:var(--paper);color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.sticky{position:sticky;bottom:0;padding:16px 0 4px;background:linear-gradient(to top,var(--bg) 75%,transparent);margin-top:8px}
+.cta{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:17px;border-radius:18px;background:var(--red);color:#fff;font-weight:700;font-size:16px;box-shadow:0 8px 22px rgba(210,65,47,.35);transition:transform .1s,opacity .2s}
+.cta:active{transform:scale(.97)}
+.cta:disabled{opacity:.4;box-shadow:none}
+.cta .pill{background:rgba(255,255,255,.22);padding:3px 9px;border-radius:10px;font-size:12.5px}
+.cta.dark{background:var(--ink);color:var(--bg);box-shadow:none}
+.cta.ghost{background:var(--paper);color:var(--ink);border:1.5px solid var(--line);box-shadow:none}
+
+/* ---------- progress ---------- */
+.plist{display:grid;gap:8px}
+.pr{display:flex;align-items:center;gap:12px;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:12px 14px}
+.pr .n{width:34px;height:34px;border-radius:10px;background:var(--red-soft);color:var(--red);display:grid;place-items:center;font-weight:800;font-family:'Noto Serif JP',serif;flex-shrink:0}
+.pr .m{flex:1}.pr .m b{font-size:14px}.pr .m .bar{margin-top:6px}
+.pr .v{font-size:12px;color:var(--muted);font-weight:600;min-width:52px;text-align:right}
+.wl{display:grid;gap:6px}
+.wr{display:flex;justify-content:space-between;gap:10px;background:var(--paper);border:1px solid var(--line);border-left:3px solid var(--red);border-radius:12px;padding:10px 12px}
+.wr .a{font-family:'Noto Sans JP';font-size:16px}.wr .a small{color:var(--muted);font-size:11.5px;margin-left:6px}
+.wr .b{font-size:13px;color:var(--muted);text-align:right}
+.empty{text-align:center;color:var(--muted);font-size:13.5px;padding:18px;background:var(--paper);border-radius:16px;border:1px dashed var(--line)}
+.reset{width:100%;margin-top:18px;padding:13px;border-radius:14px;color:var(--red);font-weight:600;font-size:14px;border:1px solid var(--line);background:var(--paper)}
+
+/* ---------- overlays ---------- */
+.ov{position:absolute;inset:0;background:var(--bg);display:flex;flex-direction:column;z-index:10;transform:translateY(100%);transition:transform .35s cubic-bezier(.2,.8,.2,1);visibility:hidden}
+.ov.on{transform:none;visibility:visible}
+.ovtop{flex-shrink:0;display:flex;align-items:center;gap:12px;padding:calc(14px + env(safe-area-inset-top,0)) 18px 10px}
+.xb{width:40px;height:40px;border-radius:14px;background:var(--paper);border:1px solid var(--line);display:grid;place-items:center;font-size:17px;flex-shrink:0}
+.track{flex:1;height:10px;background:var(--line);border-radius:10px;overflow:hidden}
+.track i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--red),var(--red2));border-radius:10px;transition:width .35s}
+.cnt{font-size:13px;font-weight:700;color:var(--muted);min-width:46px;text-align:right}
+.ovbody{flex:1;overflow-y:auto;padding:6px 18px 18px;display:flex;flex-direction:column}
+
+/* flashcard */
+.stage{flex:1;display:flex;perspective:1300px;position:relative;padding-bottom:calc(10px + env(safe-area-inset-bottom,0))}
+.fwrap{position:relative;width:100%;flex:1;touch-action:none;transition:transform .3s,opacity .3s}
+.fwrap.drag{transition:none}
+.card{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.3,.7,.3,1)}
+.card.flip{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--paper);border:1px solid var(--line);border-radius:30px;box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px 22px;text-align:center}
+.face.back{transform:rotateY(180deg)}
+.face.front{transition:visibility 0s .2s}.card.flip .face.front{visibility:hidden}
+.face.back{visibility:hidden;transition:visibility 0s .2s}.card.flip .face.back{visibility:visible}
+.tag{position:absolute;top:20px;left:22px;font-size:12px;color:var(--muted);font-weight:600;background:var(--bg);padding:4px 10px;border-radius:10px}
+.hint{position:absolute;bottom:20px;font-size:12px;color:var(--muted)}
+.stamp{position:absolute;top:70px;z-index:3;padding:6px 14px;border-radius:12px;font-weight:800;font-size:16px;opacity:0;border:3px solid}
+.stamp.ok{right:22px;color:var(--green);border-color:var(--green);transform:rotate(10deg)}
+.stamp.no{left:22px;color:var(--red);border-color:var(--red);transform:rotate(-10deg)}
+.bigw{font-family:'Noto Sans JP',sans-serif;font-size:60px;font-weight:500;line-height:1.15;word-break:keep-all;overflow-wrap:anywhere}
+.bigw.s{font-size:44px}.bigw.xs{font-size:32px}.bigw.xxs{font-size:24px;line-height:1.4}
+.rd{font-family:'Noto Sans JP',sans-serif;font-size:19px;color:var(--muted);margin-bottom:6px}
+.mn{font-size:27px;font-weight:700;line-height:1.3}
+.mn.s{font-size:20px}
+.rom{font-size:15px;color:var(--indigo);margin-top:8px;font-weight:500}
+.dv{width:40px;height:3px;background:var(--red);border-radius:3px;margin:16px auto;opacity:.5}
+.ctrl{flex-shrink:0;display:flex;justify-content:center;align-items:center;gap:22px;padding:14px 0 calc(6px + env(safe-area-inset-bottom,0))}
+.mbtn{width:68px;height:68px;border-radius:50%;display:grid;place-items:center;font-size:26px;font-weight:800;box-shadow:var(--shadow);transition:transform .1s}
+.mbtn.no{background:var(--paper);color:var(--red);border:2px solid var(--red-soft)}
+.mbtn.ok{background:var(--paper);color:var(--green);border:2px solid var(--green-soft)}
+.mbtn.snd{width:52px;height:52px;background:var(--red-soft);color:var(--red)}
+.mbtn svg{width:22px;height:22px}
+.swipehint{text-align:center;font-size:12px;color:var(--muted);margin-top:2px}
+
+/* quiz */
+.q{background:var(--paper);border:1px solid var(--line);border-radius:28px;box-shadow:var(--shadow);padding:34px 20px 28px;text-align:center;position:relative;margin:4px 0 18px;min-height:200px;display:flex;flex-direction:column;justify-content:center}
+.q .pr2{font-size:13px;color:var(--muted);font-weight:600;margin-bottom:12px}
+.q .sb{position:absolute;top:12px;right:12px;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;color:var(--red);background:var(--red-soft)}
+.q .sb svg{width:20px;height:20px}
+.opts{display:grid;gap:10px}
+.opt{background:var(--paper);border:2px solid var(--line);border-bottom-width:4px;border-radius:18px;padding:15px 16px;text-align:left;font-size:16px;font-weight:600;display:flex;align-items:center;gap:12px;transition:transform .08s,border-color .15s,background .15s}
+.opt:active{transform:translateY(2px);border-bottom-width:2px}
+.opt .k{width:28px;height:28px;border-radius:9px;border:2px solid var(--line);display:grid;place-items:center;font-size:12px;color:var(--muted);flex-shrink:0}
+.opt .jo{font-family:'Noto Sans JP';font-size:20px;font-weight:500}
+.opt .sub{font-size:12.5px;color:var(--muted);margin-left:6px;font-family:'Noto Sans JP';font-weight:400}
+.opt.ok{border-color:var(--green);background:var(--green-soft)}
+.opt.ok .k{background:var(--green);border-color:var(--green);color:#fff}
+.opt.bad{border-color:var(--red);background:var(--red-soft);animation:shake .35s}
+.opt.bad .k{background:var(--red);border-color:var(--red);color:#fff}
+@keyframes shake{25%{transform:translateX(-6px)}50%{transform:translateX(6px)}75%{transform:translateX(-3px)}}
+.opts.done .opt{pointer-events:none}
+.sheet{position:absolute;left:0;right:0;bottom:0;padding:18px 18px calc(18px + env(safe-area-inset-bottom,0));border-radius:26px 26px 0 0;transform:translateY(110%);transition:transform .3s cubic-bezier(.2,.8,.2,1);z-index:3}
+.sheet.on{transform:none}
+.sheet.ok{background:var(--green-soft)}
+.sheet.no{background:var(--red-soft)}
+.sheet .sh{font-size:19px;font-weight:800;display:flex;align-items:center;gap:8px}
+.sheet.ok .sh{color:var(--green)}.sheet.no .sh{color:var(--red)}
+.sheet .sa{font-size:14px;margin:6px 0 14px;line-height:1.45}
+.sheet .sa b{font-family:'Noto Sans JP';font-size:16px}
+.sheet .cta.okc{background:var(--green);box-shadow:0 8px 22px rgba(47,158,99,.3)}
+
+/* results */
+.res{text-align:center;padding-top:8px}
+.bring{--p:0;width:160px;height:160px;border-radius:50%;margin:16px auto 10px;display:grid;place-items:center;background:conic-gradient(var(--red) calc(var(--p)*1%),var(--line) 0)}
+.bring>div{width:130px;height:130px;border-radius:50%;background:var(--bg);display:grid;place-items:center}
+.bring b{font-size:36px;font-weight:800}
+.res h2{font-size:24px;font-weight:800;margin-top:4px}
+.res p{color:var(--muted);margin-top:4px}
+.badge{display:inline-block;background:var(--gold);color:#fff;padding:6px 12px;border-radius:20px;font-size:12.5px;font-weight:700;margin-top:10px}
+.stack{display:grid;gap:10px;margin-top:6px}
+.emoji{font-size:64px;margin-top:30px}
+
+.toast{position:absolute;left:50%;top:80px;transform:translateX(-50%) translateY(-10px);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:14px;font-size:13px;opacity:0;transition:.25s;pointer-events:none;z-index:50;max-width:88%;text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%)}
+</style>
+</head>
+<body>
+<div class="shell" id="shell">
+
+  <header class="appbar">
+    <h1 id="ab-title">日本語</h1>
+    <div class="fire"><i class="ico" data-ic="flame"></i><span id="ab-streak">0</span></div>
+  </header>
+
+  <main class="content" id="content">
+
+    <!-- HOME -->
+    <section class="pane on" id="p-home">
+      <div class="hello">
+        <div style="flex:1;position:relative;z-index:1">
+          <div class="t1">こんにちは！</div>
+          <div class="t2" id="h-msg">Өнөөдөр үгээ давтъя</div>
+          <div class="t3" id="h-sub">0 / 0 үг цээжилсэн</div>
+        </div>
+        <div class="ring" id="h-ring" style="position:relative;z-index:1"><div id="h-pct">0%</div></div>
+      </div>
+      <div class="statrow">
+        <div class="st"><div class="e"><i class="ico" data-ic="flame"></i></div><b id="s-streak">0</b><span>Дараалсан өдөр</span></div>
+        <div class="st"><div class="e g"><i class="ico" data-ic="check"></i></div><b id="s-mast">0</b><span>Цээжилсэн</span></div>
+        <div class="st"><div class="e y"><i class="ico" data-ic="trophy"></i></div><b id="s-best">0%</b><span>Шилдэг оноо</span></div>
+      </div>
+
+      <div class="h2"><h2>Юу хийх вэ?</h2></div>
+      <div class="big2">
+        <button class="bigbtn" data-tab="flash"><div class="bi"><i class="ico" data-ic="cards"></i></div><b>Флашкарт</b><span>Картаар цээжлэх</span></button>
+        <button class="bigbtn g" data-tab="quiz"><div class="bi"><i class="ico" data-ic="quiz"></i></div><b>Шалгалт</b><span>Өөрийгөө шалгах</span></button>
+      </div>
+      <button class="weakcard" id="h-weak" style="display:none">
+        <div class="bi"><i class="ico" data-ic="repeat"></i></div>
+        <div style="flex:1"><b>Алдсан үгсээ давтах</b><span id="h-weak-n">0 үг</span></div>
+        <div style="color:var(--muted)">›</div>
+      </button>
+
+      <div class="h2"><h2>Хичээлүүд</h2><button data-tab="prog">Бүгд ›</button></div>
+      <div class="hscroll" id="h-lessons"></div>
+    </section>
+
+    <!-- FLASH -->
+    <section class="pane" id="p-flash">
+      <p class="intro">Давтах хичээлээ сонго (хэдийг ч сонгож болно)</p>
+      <div class="h2"><h2>Үсэг</h2></div>
+      <div class="kgrid pick" data-k="1"></div>
+      <div class="h2"><h2>Хичээл</h2><button class="selall">Бүгд</button></div>
+      <div class="lgrid pick"></div>
+      <div class="h2"><h2>Тохиргоо</h2></div>
+      <div class="card-s">
+        <div class="row"><label>Картын нүүр</label><div class="seg" data-set="dir"><button data-v="jp">Япон</button><button data-v="mn">Монгол</button></div></div>
+        <div class="row"><label>Уншлага харуулах</label><div class="seg" data-set="read"><button data-v="1">Тийм</button><button data-v="0">Үгүй</button></div></div>
+      </div>
+      <div class="sticky"><button class="cta" id="go-flash">Флашкарт эхлэх <span class="pill" id="n-flash">0</span></button></div>
+    </section>
+
+    <!-- QUIZ -->
+    <section class="pane" id="p-quiz">
+      <p class="intro">Шалгалт өгөх хичээлээ сонго</p>
+      <div class="h2"><h2>Үсэг</h2></div>
+      <div class="kgrid pick" data-k="1"></div>
+      <div class="h2"><h2>Хичээл</h2><button class="selall">Бүгд</button></div>
+      <div class="lgrid pick"></div>
+      <div class="h2"><h2>Тохиргоо</h2></div>
+      <div class="card-s">
+        <div class="row"><label>Асуултын тоо</label><div class="seg" data-set="len"><button data-v="10">10</button><button data-v="20">20</button><button data-v="0">Бүгд</button></div></div>
+        <div class="row"><label>Төрөл</label><div class="seg" data-set="qt"><button data-v="mix">Холимог</button><button data-v="jm">日→Мон</button><button data-v="mj">Мон→日</button></div></div>
+      </div>
+      <div class="sticky"><button class="cta" id="go-quiz">Шалгалт эхлэх <span class="pill" id="n-quiz">0</span></button></div>
+    </section>
+
+    <!-- PROGRESS -->
+    <section class="pane" id="p-prog">
+      <div class="h2" style="margin-top:6px"><h2>Хичээл бүрийн ахиц</h2></div>
+      <div class="plist" id="pr-list"></div>
+      <div class="h2"><h2>Алдсан үгс</h2><button id="pr-weak-go">Давтах ›</button></div>
+      <div class="wl" id="pr-weak"></div>
+      <button class="reset" id="reset">Ахицаа устгах</button>
+    </section>
+  </main>
+
+  <nav class="tabbar">
+    <button class="tab on" data-tab="home"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg></span>Нүүр</button>
+    <button class="tab" data-tab="flash"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="14" height="15" rx="2.5"/><path d="M7 3h11.5A2.5 2.5 0 0 1 21 5.5V17"/></svg></span>Флашкарт</button>
+    <button class="tab" data-tab="quiz"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l2.5 2.5L16 9"/><rect x="3" y="3" width="18" height="18" rx="4"/></svg></span>Шалгалт</button>
+    <button class="tab" data-tab="prog"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span>Ахиц</button>
+  </nav>
+
+  <!-- FLASH SESSION -->
+  <div class="ov" id="ov-flash">
+    <div class="ovtop"><button class="xb" data-close>✕</button><div class="track"><i id="f-bar"></i></div><div class="cnt" id="f-cnt">1/1</div></div>
+    <div class="ovbody">
+      <div class="stage">
+        <div class="fwrap" id="fwrap">
+          <button class="fsay" data-say id="fsay"></button>
+          <div class="stamp ok" id="st-ok">МЭДСЭН</div><div class="stamp no" id="st-no">ДАХИАД</div>
+          <div class="card" id="fcard">
+            <div class="face front" id="f-front"></div>
+            <div class="face back" id="f-back"></div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLASH DONE -->
+  <div class="ov" id="ov-fdone">
+    <div class="ovtop"><button class="xb" data-close>✕</button></div>
+    <div class="ovbody"><div class="res">
+      <div class="emoji"><i class="ico" data-ic="party"></i></div>
+      <h2>Бүх картаа давтлаа!</h2>
+      <p id="fd-sub"></p>
+      <div class="statrow" style="grid-template-columns:1fr 1fr;margin:22px 0">
+        <div class="st"><div class="e g"><i class="ico" data-ic="check"></i></div><b id="fd-ok">0</b><span>Шууд мэдсэн</span></div>
+        <div class="st"><div class="e"><i class="ico" data-ic="repeat"></i></div><b id="fd-no">0</b><span>Дахин үзсэн</span></div>
+      </div>
+      <div class="stack">
+        <button class="cta" id="fd-quiz">Эдгээр үгээр шалгалт өгөх</button>
+        <button class="cta ghost" id="fd-again">Дахин давтах ↻</button>
+        <button class="cta ghost" data-close>Болсон</button>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- QUIZ SESSION -->
+  <div class="ov" id="ov-quiz">
+    <div class="ovtop"><button class="xb" data-close>✕</button><div class="track"><i id="q-bar"></i></div><div class="cnt qs"><i class="ico" data-ic="flame"></i><span id="q-str">0</span></div></div>
+    <div class="ovbody">
+      <div class="q" id="q-card"></div>
+      <div class="opts" id="q-opts"></div>
+    </div>
+    <div class="sheet" id="q-sheet">
+      <div class="sh" id="qs-h"></div>
+      <div class="sa" id="qs-a"></div>
+      <button class="cta" id="q-next">Үргэлжлүүлэх</button>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <div class="ov" id="ov-res">
+    <div class="ovtop"><button class="xb" data-close>✕</button></div>
+    <div class="ovbody"><div class="res">
+      <div class="bring" id="r-ring"><div><b id="r-pct">0%</b></div></div>
+      <h2 id="r-title"></h2>
+      <p id="r-sub"></p>
+      <div id="r-badge"></div>
+      <div class="statrow" style="margin:20px 0 6px">
+        <div class="st"><div class="e g"><i class="ico" data-ic="check"></i></div><b id="r-ok">0</b><span>Зөв</span></div>
+        <div class="st"><div class="e"><i class="ico" data-ic="x"></i></div><b id="r-bad">0</b><span>Буруу</span></div>
+        <div class="st"><div class="e"><i class="ico" data-ic="flame"></i></div><b id="r-str">0</b><span>Дараалсан</span></div>
+      </div>
+      <div class="stack" style="margin-top:14px">
+        <button class="cta" id="r-flash">Алдсан үгсээ давтах</button>
+        <button class="cta ghost" id="r-again">Дахин өгөх ↻</button>
+        <button class="cta ghost" data-close>Болсон</button>
+      </div>
+      <div class="h2" style="text-align:left"><h2>Хариултууд</h2></div>
+      <div class="wl" id="r-list" style="text-align:left"></div>
+    </div></div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+</div>
+
+<script>
+(function(){
+"use strict";
+var WORDS = [{"id": "L1", "title": "Хичээл 1", "emoji": "1", "num": true, "words": [["わたし", "わたし", "би"], ["あなた", "あなた", "та"], ["あの人", "あのひと", "тэр хүн, нөгөө хүн", "ano hito"], ["あの方", "あのかた", "тэр хүн (あの ひと-ийн хүндэтгэлийн хэлбэр)", "ano kata"], ["～さん", "～さん", "(хүний нэрийн ард орох хүндэтгэлийн хэллэг)"], ["～ちゃん", "～ちゃん", "(хүүхдийн нэрийн ард ～さん-ийн оронд)"], ["～人", "～じん", "～ хүн (яс үндэс), жишээ нь: アメリカじん"], ["先生", "せんせい", "багш, эмч (өөрийн ажлыг хэлэхэд хэрэглэдэггүй)"], ["教師", "きょうし", "багш"], ["学生", "がくせい", "оюутан"], ["会社員", "かいしゃいん", "компанийн ажилтан"], ["社員", "しゃいん", "компанийн ажилтан (компанийн нэртэй хамт)"], ["銀行員", "ぎんこういん", "банкны ажилтан"], ["医者", "いしゃ", "эмч"], ["研究者", "けんきゅうしゃ", "судлаач, эрдэмтэн"], ["大学", "だいがく", "их, дээд сургууль"], ["病院", "びょういん", "эмнэлэг"], ["だれ", "だれ", "хэн"], ["どなた", "どなた", "хэн (だれ-ийн хүндэтгэлийн хэлбэр)"], ["～歳", "～さい", "～ настай"], ["何歳", "なんさい", "хэдэн настай"], ["おいくつ", "おいくつ", "хэдэн настай (なんさい-ийн хүндэтгэлийн хэлбэр)"], ["はい", "はい", "за, тийм"], ["いいえ", "いいえ", "үгүй, биш"], ["初めまして", "はじめまして", "Сайн байна уу? (анх танилцахдаа)"], ["～から来ました", "～からきました", "Би ～аас ирсэн"], ["どうぞよろしくお願いします", "どうぞよろしくおねがいします", "Танилцсандаа таатай байна. Тусалж дэмжиж байгаарай", "douzo yoroshiku onegaishimasu"], ["失礼ですが", "しつれいですが", "Уучлаарай, гэвч (хувийн мэдээлэл асуухад)", "shitsurei desu ga"], ["お名前は？", "おなまえは？", "Таны нэр хэн бэ?", "onamae wa?"], ["こちらは～さんです", "こちらは～さんです", "Энэ хүн бол ～", "kochira wa ~san desu"], ["アメリカ", "アメリカ", "АНУ"], ["イギリス", "イギリス", "Их Британи"], ["インド", "インド", "Энэтхэг"], ["インドネシア", "インドネシア", "Индонез"], ["韓国", "かんこく", "Өмнөд Солонгос"], ["タイ", "タイ", "Тайланд"], ["中国", "ちゅうごく", "Хятад"], ["ドイツ", "ドイツ", "Герман"], ["日本", "にほん", "Япон"], ["ブラジル", "ブラジル", "Бразил"]]}, {"id": "L2", "title": "Хичээл 2", "emoji": "2", "num": true, "words": [["これ", "これ", "энэ (өгүүлэгчтэй ойрхон зүйл)"], ["それ", "それ", "тэр (сонсогчтой ойрхон зүйл)"], ["あれ", "あれ", "тэр (хоёулангаас нь хол зүйл)"], ["この～", "この～", "энэ ～"], ["その～", "その～", "тэр ～"], ["あの～", "あの～", "тэр ～, нөгөөдөх"], ["本", "ほん", "ном"], ["辞書", "じしょ", "толь бичиг"], ["雑誌", "ざっし", "сэтгүүл"], ["新聞", "しんぶん", "сонин"], ["ノート", "ノート", "дэвтэр"], ["手帳", "てちょう", "тэмдэглэлийн дэвтэр"], ["名刺", "めいし", "нэрийн хуудас"], ["カード", "カード", "карт"], ["鉛筆", "えんぴつ", "харандаа"], ["ボールペン", "ボールペン", "тосон бал"], ["シャープペンシル", "シャープペンシル", "0.5-ын харандаа"], ["かぎ", "かぎ", "түлхүүр"], ["時計", "とけい", "цаг"], ["傘", "かさ", "шүхэр"], ["かばん", "かばん", "цүнх"], ["テレビ", "テレビ", "зурагт"], ["ラジオ", "ラジオ", "радио"], ["カメラ", "カメラ", "камер, зургийн аппарат"], ["コンピューター", "コンピューター", "компьютер"], ["車", "くるま", "машин"], ["机", "つくえ", "ширээ"], ["いす", "いす", "сандал"], ["チョコレート", "チョコレート", "шоколад"], ["コーヒー", "コーヒー", "кофе"], ["お土産", "おみやげ", "бэлэг (аяллаас авчирсан)"], ["英語", "えいご", "англи хэл"], ["日本語", "にほんご", "япон хэл"], ["～語", "～ご", "～ хэл"], ["何", "なん", "юу"], ["そう", "そう", "тийм"], ["あのう", "あのう", "нөгөө (хүндээ хэлэх үг)"], ["えっ", "えっ", "Айн, өө (гэнэт сонсоход)"], ["どうぞ", "どうぞ", "Тэг тэг, мэй (юм өгөх, урих үед)"], ["どうもありがとうございます", "どうもありがとうございます", "Маш их баярлалаа", "doumo arigatou gozaimasu"], ["そうですか", "そうですか", "Тийм үү? Үнэн гэж үү?", "sou desu ka"], ["違います", "ちがいます", "Үгүй, биш, буруу байна"], ["あ", "あ", "Өө (ямар нэг юм анзаарахад)"], ["これからお世話になります", "これからおせわになります", "Цаашид тусалж дэмжиж байгаарай", "korekara osewa ni narimasu"], ["こちらこそよろしく", "こちらこそよろしく", "Та ч гэсэн тусалж дэмжиж байгаарай", "kochira koso yoroshiku"]]}, {"id": "L3", "title": "Хичээл 3", "emoji": "3", "num": true, "words": [["ここ", "ここ", "энд, энэ газар"], ["そこ", "そこ", "тэнд (сонсогчийн ойр газар)"], ["あそこ", "あそこ", "тэр газар, тээр тэнд"], ["どこ", "どこ", "хаана, хаашаа"], ["こちら", "こちら", "ийшээ, энэ газар (ここ-ийн эелдэг хэлбэр)"], ["そちら", "そちら", "тийшээ (そこ-ийн эелдэг хэлбэр)"], ["あちら", "あちら", "тээр тийшээ (あそこ-ийн эелдэг хэлбэр)"], ["どちら", "どちら", "хаашаа, аль нь (どこ-ийн эелдэг хэлбэр)"], ["教室", "きょうしつ", "анги танхим"], ["食堂", "しょくどう", "хоолны газар"], ["事務所", "じむしょ", "албан тасалгаа, оффис"], ["会議室", "かいぎしつ", "хурлын өрөө"], ["受付", "うけつけ", "хүлээн авах, ресепшн"], ["ロビー", "ロビー", "хүлээлгийн танхим, үүдний өрөө"], ["部屋", "へや", "өрөө"], ["トイレ", "トイレ", "бие засах өрөө"], ["お手洗い", "おてあらい", "угаалгын өрөө (トイレ-ийн эелдэг)"], ["階段", "かいだん", "шат"], ["エレベーター", "エレベーター", "цахилгаан шат, лифт"], ["エスカレーター", "エスカレーター", "урсдаг шат"], ["自動販売機", "じどうはんばいき", "автомат машин"], ["電話", "でんわ", "утас"], ["お国", "おくに", "улс"], ["会社", "かいしゃ", "компани"], ["うち", "うち", "байшин, гэр"], ["靴", "くつ", "гутал"], ["ネクタイ", "ネクタイ", "зангиа"], ["ワイン", "ワイン", "дарс"], ["売り場", "うりば", "тасаг, лангуу"], ["地下", "ちか", "подвал, газар доорх давхар"], ["～階", "～かい", "～ давхар"], ["何階", "なんがい", "хэдэн давхар"], ["～円", "～えん", "～ иен"], ["いくら", "いくら", "хэд (үнэ)"], ["百", "ひゃく", "зуу"], ["千", "せん", "мянга"], ["万", "まん", "арван мянга"], ["すみません", "すみません", "Уучлаарай"], ["どうも", "どうも", "Баярлалаа"], ["いらっしゃいませ", "いらっしゃいませ", "Тавтай морилно уу (дэлгүүрт)"], ["見せてください", "みせてください", "[～-ийг] үзүүлнэ үү?", "misete kudasai"], ["じゃ", "じゃ", "За"], ["ください", "ください", "[～-г] өгнө үү, авъя"], ["イタリア", "イタリア", "Итали"], ["スイス", "スイス", "Швейцарь"], ["フランス", "フランス", "Франц"]]}, {"id": "L4", "title": "Хичээл 4", "emoji": "4", "num": true, "words": [["起きます", "おきます", "өглөө босно"], ["寝ます", "ねます", "унтана"], ["働きます", "はたらきます", "ажиллана"], ["休みます", "やすみます", "амарна"], ["勉強します", "べんきょうします", "хичээллэнэ"], ["終わります", "おわります", "дуусна"], ["デパート", "デパート", "их дэлгүүр"], ["銀行", "ぎんこう", "банк"], ["郵便局", "ゆうびんきょく", "шуудан"], ["図書館", "としょかん", "номын сан"], ["美術館", "びじゅつかん", "дүрслэх урлагийн музей"], ["今", "いま", "одоо"], ["～時", "～じ", "～ цаг"], ["～分", "～ふん", "～ минут"], ["半", "はん", "хагас"], ["何時", "なんじ", "хэдэн цаг"], ["何分", "なんぷん", "хэдэн минут"], ["午前", "ごぜん", "үдээс өмнө"], ["午後", "ごご", "үдээс хойш"], ["朝", "あさ", "өглөө"], ["昼", "ひる", "өдөр, үд"], ["晩", "ばん", "орой, шөнө"], ["おととい", "おととい", "уржигдар"], ["きのう", "きのう", "өчигдөр"], ["きょう", "きょう", "өнөөдөр"], ["あした", "あした", "маргааш"], ["あさって", "あさって", "нөгөөдөр"], ["けさ", "けさ", "өнөө өглөө"], ["今晩", "こんばん", "өнөө орой"], ["休み", "やすみ", "амралт"], ["昼休み", "ひるやすみ", "үдийн амралт"], ["試験", "しけん", "шалгалт"], ["会議", "かいぎ", "хурал"], ["映画", "えいが", "кино"], ["毎朝", "まいあさ", "өглөө бүр"], ["毎晩", "まいばん", "орой бүр"], ["毎日", "まいにち", "өдөр бүр"], ["月曜日", "げつようび", "даваа гараг"], ["火曜日", "かようび", "мягмар гараг"], ["水曜日", "すいようび", "лхагва гараг"], ["木曜日", "もくようび", "пүрэв гараг"], ["金曜日", "きんようび", "баасан гараг"], ["土曜日", "どようび", "бямба гараг"], ["日曜日", "にちようび", "ням гараг"], ["何曜日", "なんようび", "ямар гараг"], ["～から", "～から", "～аас"], ["～まで", "～まで", "～ хүртэл"], ["～と～", "～と～", "～ ба ～"], ["大変ですね", "たいへんですね", "Хэцүү юм аа", "taihen desu ne"], ["番号", "ばんごう", "дугаар"], ["何番", "なんばん", "хэддүгээр"]]}, {"id": "L5", "title": "Хичээл 5", "emoji": "5", "num": true, "words": [["行きます", "いきます", "явна"], ["来ます", "きます", "ирнэ"], ["帰ります", "かえります", "гэртээ харина"], ["学校", "がっこう", "сургууль"], ["スーパー", "スーパー", "супермаркет"], ["駅", "えき", "буудал (галт тэрэгний)"], ["飛行機", "ひこうき", "онгоц"], ["船", "ふね", "хөлөг онгоц"], ["電車", "でんしゃ", "цахилгаан галт тэрэг"], ["地下鉄", "ちかてつ", "метро"], ["新幹線", "しんかんせん", "Шинкансэн, хурдан галт тэрэг"], ["バス", "バス", "автобус"], ["タクシー", "タクシー", "такси"], ["自転車", "じてんしゃ", "унадаг дугуй"], ["歩いて", "あるいて", "явганаар, алхаад"], ["人", "ひと", "хүн"], ["友達", "ともだち", "найз"], ["彼", "かれ", "тэр эрэгтэй, найз залуу"], ["彼女", "かのじょ", "тэр эмэгтэй, найз охин"], ["家族", "かぞく", "гэр бүл"], ["一人で", "ひとりで", "ганцаараа"], ["先週", "せんしゅう", "өнгөрсөн долоо хоног"], ["今週", "こんしゅう", "энэ долоо хоног"], ["来週", "らいしゅう", "дараа долоо хоног"], ["先月", "せんげつ", "өнгөрсөн сар"], ["今月", "こんげつ", "энэ сар"], ["来月", "らいげつ", "дараа сар"], ["去年", "きょねん", "ноднин жил"], ["ことし", "ことし", "энэ жил"], ["来年", "らいねん", "хойтон жил"], ["～年", "～ねん", "～ он, жил"], ["何年", "なんねん", "хэдэн он, хэдэн жил"], ["～月", "～がつ", "～ дугаар сар"], ["何月", "なんがつ", "хэддүгээр сар"], ["1日", "ついたち", "нэгний өдөр"], ["2日", "ふつか", "хоёрны өдөр"], ["3日", "みっか", "гуравны өдөр"], ["4日", "よっか", "дөрөвний өдөр"], ["5日", "いつか", "тавны өдөр"], ["6日", "むいか", "зургааны өдөр"], ["7日", "なのか", "долооны өдөр"], ["8日", "ようか", "наймны өдөр"], ["9日", "ここのか", "есний өдөр"], ["10日", "とおか", "аравны өдөр"], ["14日", "じゅうよっか", "арван дөрвөний өдөр"], ["20日", "はつか", "хорины өдөр"], ["24日", "にじゅうよっか", "хорин дөрвөний өдөр"], ["～日", "～にち", "～ -ний өдөр"], ["何日", "なんにち", "хэдний өдөр"], ["いつ", "いつ", "хэзээ"], ["誕生日", "たんじょうび", "төрсөн өдөр"], ["そうですね", "そうですね", "Тийм ээ. Тийм шүү", "sou desu ne"], ["どうもありがとうございました", "どうもありがとうございました", "Маш их баярлалаа", "doumo arigatou gozaimashita"], ["どういたしまして", "どういたしまして", "Зүгээр, баярлах юу байх вэ", "dou itashimashite"], ["～番線", "～ばんせん", "～ дугаар шугам, зорчигчийн тавцан"], ["次の", "つぎの", "дараагийн"], ["普通", "ふつう", "ердийн галт тэрэг"], ["急行", "きゅうこう", "хурдан галт тэрэг"], ["特急", "とっきゅう", "экспресс галт тэрэг"]]}, {"id": "L6", "title": "Хичээл 6", "emoji": "6", "num": true, "words": [["食べます", "たべます", "иднэ"], ["飲みます", "のみます", "ууна"], ["吸います", "すいます", "татна [тамхи ～]"], ["見ます", "みます", "харна, үзнэ"], ["聞きます", "ききます", "сонсоно, чагнана"], ["読みます", "よみます", "уншина"], ["書きます", "かきます", "бичнэ, зурна"], ["買います", "かいます", "худалдан авна"], ["撮ります", "とります", "авна [зураг ～]"], ["します", "します", "хийнэ"], ["会います", "あいます", "уулзана [найзтайгаа ～]"], ["ごはん", "ごはん", "хоол, агшаасан будаа"], ["朝ごはん", "あさごはん", "өглөөний цай, унд"], ["昼ごはん", "ひるごはん", "өдрийн хоол"], ["晩ごはん", "ばんごはん", "оройн хоол"], ["パン", "パン", "талх"], ["卵", "たまご", "өндөг"], ["肉", "にく", "мах"], ["魚", "さかな", "загас"], ["野菜", "やさい", "хүнсний ногоо"], ["果物", "くだもの", "жимс"], ["水", "みず", "ус"], ["お茶", "おちゃ", "цай, ногоон цай"], ["紅茶", "こうちゃ", "байхуу цай"], ["牛乳", "ぎゅうにゅう", "сүү"], ["ジュース", "ジュース", "жүүс"], ["ビール", "ビール", "шар айраг, пиво"], ["お酒", "おさけ", "архи, цагаан будааны архи"], ["たばこ", "たばこ", "тамхи"], ["手紙", "てがみ", "захиа"], ["レポート", "レポート", "илтгэл"], ["写真", "しゃしん", "гэрэл зураг"], ["ビデオ", "ビデオ", "видео"], ["店", "みせ", "дэлгүүр"], ["庭", "にわ", "цэцэрлэг"], ["宿題", "しゅくだい", "гэрийн даалгавар"], ["テニス", "テニス", "теннис"], ["サッカー", "サッカー", "хөл бөмбөг"], ["お花見", "おはなみ", "сакура цэцэг харах баяр"], ["何", "なに", "юу"], ["いっしょに", "いっしょに", "хамт, хамтдаа"], ["ちょっと", "ちょっと", "жаахан, түр, бага зэрэг"], ["いつも", "いつも", "үргэлж, байнга, дандаа"], ["時々", "ときどき", "заримдаа, үе үе"], ["それから", "それから", "дараа нь, тэгээд"], ["ええ", "ええ", "за, тийм ээ"], ["いいですね", "いいですね", "Сайн байна. Болж байна", "ii desu ne"], ["わかりました", "わかりました", "Ойлголоо"], ["何ですか", "なんですか", "Юу вэ? Юу гэсэн бэ?", "nan desu ka"], ["じゃ、またあした", "じゃ、またあした", "За, маргааш уулзъя", "ja, mata ashita"], ["メキシコ", "メキシコ", "Мексик"]]}, {"id": "L7", "title": "Хичээл 7", "emoji": "7", "num": true, "words": [["切ります", "きります", "зүснэ, хэрчинэ, огтолно"], ["送ります", "おくります", "явуулна, илгээнэ"], ["あげます", "あげます", "өгнө"], ["もらいます", "もらいます", "авна, хүлээн авна"], ["貸します", "かします", "зээлж өгнө, түр өгнө"], ["借ります", "かります", "зээлж авна"], ["教えます", "おしえます", "заана"], ["習います", "ならいます", "сурна, үзнэ"], ["かけます", "かけます", "залгана [утсаар ～]"], ["手", "て", "гар"], ["はし", "はし", "савх"], ["スプーン", "スプーン", "халбага"], ["ナイフ", "ナイフ", "хутга"], ["フォーク", "フォーク", "сэрээ"], ["はさみ", "はさみ", "хайч"], ["パソコン", "パソコン", "компьютер"], ["ケータイ", "ケータイ", "гар утас"], ["メール", "メール", "и-мэйл"], ["年賀状", "ねんがじょう", "шинэ жилийн мэндчилгээ"], ["パンチ", "パンチ", "цоолтуур"], ["ホッチキス", "ホッチキス", "үдээсний машин"], ["セロテープ", "セロテープ", "скоч"], ["消しゴム", "けしゴム", "баллуур"], ["紙", "かみ", "цаас"], ["花", "はな", "цэцэг"], ["シャツ", "シャツ", "цамц"], ["プレゼント", "プレゼント", "бэлэг"], ["荷物", "にもつ", "ачаа тээш, илгээмж"], ["お金", "おかね", "мөнгө"], ["切符", "きっぷ", "тасалбар, билет"], ["クリスマス", "クリスマス", "Христосын мэндэлсний баяр, Зул сар"], ["父", "ちち", "(өөрийн) аав"], ["母", "はは", "(өөрийн) ээж"], ["お父さん", "おとうさん", "аав (бусдын аав; өөрийн аавыг дуудахад)"], ["お母さん", "おかあさん", "ээж (бусдын ээж; өөрийн ээжийг дуудахад)"], ["もう", "もう", "аль хэдийнээ, бүр"], ["まだ", "まだ", "хараахан, одоохондоо"], ["これから", "これから", "одооноос, үүнээс хойш"], ["すてきですね", "すてきですね", "Ямар гоё юм бэ!", "suteki desu ne"], ["いらっしゃい", "いらっしゃい", "Тавтай морилно уу"], ["どうぞお上がりください", "どうぞおあがりください", "Дотогшоо ор, дээшээ морил", "douzo oagari kudasai"], ["失礼します", "しつれいします", "Баярлалаа (төвөг удсанд уучлаарай)"], ["いかがですか", "いかがですか", "[～] авмаар байна уу? Ямар вэ?", "ikaga desu ka"], ["いただきます", "いただきます", "Баярлалаа. Амтархан идье (хоолны өмнө)"], ["ごちそうさまでした", "ごちそうさまでした", "Баярлалаа. Амттай байлаа (хоолны дараа)", "gochisousama deshita"]]}, {"id": "L8", "title": "Хичээл 8", "emoji": "8", "num": true, "words": [["ハンサム", "ハンサム", "сэтгэл татам, гоё сайхан (залуу)"], ["きれい", "きれい", "цэвэр, гоё сайхан, үзэсгэлэнтэй"], ["静か", "しずか", "нам гүм, тайван, чимээгүй"], ["にぎやか", "にぎやか", "хөл хөдөлгөөнтэй, бужигнасан"], ["有名", "ゆうめい", "алдартай, нэрд гарсан"], ["親切", "しんせつ", "эелдэг, сайхан зантай"], ["元気", "げんき", "эрүүл чийрэг, цовоо сэргэлэн"], ["暇", "ひま", "завтай, чөлөөтэй"], ["便利", "べんり", "тохиромжтой, ая тухтай"], ["すてき", "すてき", "гоё, сайхан, гайхалтай"], ["大きい", "おおきい", "том"], ["小さい", "ちいさい", "жижиг"], ["新しい", "あたらしい", "шинэ"], ["古い", "ふるい", "хуучин (эд юманд)"], ["いい", "いい", "сайн"], ["悪い", "わるい", "муу"], ["暑い", "あつい", "халуун (агаар)"], ["寒い", "さむい", "хүйтэн (агаарын хэм)"], ["冷たい", "つめたい", "хүйтэн (мэдрэхүйн)"], ["難しい", "むずかしい", "хэцүү, хүнд"], ["易しい", "やさしい", "амар, хялбар"], ["高い", "たかい", "өндөр үнэтэй, өндөр"], ["安い", "やすい", "хямдхан"], ["低い", "ひくい", "намхан"], ["おもしろい", "おもしろい", "сонирхолтой"], ["おいしい", "おいしい", "амттай"], ["忙しい", "いそがしい", "завгүй"], ["楽しい", "たのしい", "хөгжилтэй, зугаатай"], ["白い", "しろい", "цагаан"], ["黒い", "くろい", "хар"], ["赤い", "あかい", "улаан"], ["青い", "あおい", "хөх, цэнхэр"], ["桜", "さくら", "сакура, интоор (цэцэг)"], ["山", "やま", "уул"], ["町", "まち", "тосгон, хот"], ["食べ物", "たべもの", "идэх юм, хоол хүнс"], ["所", "ところ", "газар (байршил)"], ["寮", "りょう", "нийтийн байр"], ["レストラン", "レストラン", "ресторан"], ["生活", "せいかつ", "амьдрал, ахуй амьдрал"], ["お仕事", "おしごと", "ажил хэрэг"], ["どう", "どう", "яаж, хэрхэн"], ["どんな～", "どんな～", "ямар, ямархуу"], ["とても", "とても", "маш их, маш"], ["あまり", "あまり", "бараг (үгүйсгэлтэй хамт)"], ["そして", "そして", "тэгээд (өгүүлбэр холбоос)"], ["～が、～", "～が、～", "～ гэвч, ～ боловч"], ["お元気ですか", "おげんきですか", "Сайн байна уу? Бие сайн уу?", "ogenki desu ka"], ["もう一杯いかがですか", "もういっぱいいかがですか", "Дахиад [～] уухгүй юу?", "mou ippai ikaga desu ka"], ["けっこうです", "けっこうです", "Үгүй ээ. Боллоо", "kekkou desu"], ["もう～ですね", "もう～ですね", "Аль хэдийн ～ болчихжээ", "mou ~ desu ne"], ["そろそろ失礼します", "そろそろしつれいします", "Ингээд явья даа", "sorosoro shitsurei shimasu"], ["またいらっしゃってください", "またいらっしゃってください", "Дараа дахин ирээрэй", "mata irasshatte kudasai"]]}, {"id": "L9", "title": "Хичээл 9", "emoji": "9", "num": true, "words": [["わかります", "わかります", "ойлгоно"], ["あります", "あります", "байна (амьгүй зүйлийн тухайд)"], ["好き", "すき", "дуртай"], ["嫌い", "きらい", "дургүй"], ["上手", "じょうず", "сайн, авьяаслаг, чадварлаг"], ["下手", "へた", "муу, болхи, тааруу"], ["飲み物", "のみもの", "ундаа, уух юм"], ["料理", "りょうり", "хоол (～をします: хоол хийх)"], ["スポーツ", "スポーツ", "спорт"], ["野球", "やきゅう", "бейсбол"], ["ダンス", "ダンス", "бүжиг"], ["旅行", "りょこう", "аялал"], ["音楽", "おんがく", "хөгжим, аялгуу"], ["歌", "うた", "дуу"], ["クラシック", "クラシック", "сонгодог хөгжим"], ["ジャズ", "ジャズ", "жааз хөгжим"], ["コンサート", "コンサート", "концерт"], ["カラオケ", "カラオケ", "караоке"], ["歌舞伎", "かぶき", "Кабуки (Японы уламжлалт театр)"], ["絵", "え", "уран зураг"], ["字", "じ", "үсэг, үсгийн тэмдэгт"], ["漢字", "かんじ", "ханз, канжи"], ["ひらがな", "ひらがな", "хирагана үсэг"], ["かたかな", "かたかな", "катакана үсэг"], ["ローマ字", "ローマじ", "латин үсэг"], ["細かいお金", "こまかいおかね", "задгай мөнгө"], ["チケット", "チケット", "тасалбар"], ["時間", "じかん", "цаг, хугацаа"], ["用事", "ようじ", "яаралтай ажил, гэнэтийн ажил"], ["約束", "やくそく", "амлалт, болзоо"], ["アルバイト", "アルバイト", "цагийн ажил"], ["ご主人", "ごしゅじん", "нөхөр (өөр хүний)"], ["夫", "おっと", "нөхөр (өөрийн)"], ["主人", "しゅじん", "нөхөр (өөрийн)"], ["奥さん", "おくさん", "эхнэр (өөр хүний)"], ["妻", "つま", "эхнэр (өөрийн)"], ["家内", "かない", "эхнэр (өөрийн)"], ["子ども", "こども", "хүүхэд"], ["よく", "よく", "сайн, дандаа, маш"], ["だいたい", "だいたい", "ихэнх, бараг, голдуу"], ["たくさん", "たくさん", "олон, их"], ["少し", "すこし", "бага зэрэг, жаахан"], ["全然", "ぜんぜん", "огт (үгүйсгэлтэй хамт)"], ["早く", "はやく", "эрт, хурдан"], ["～から", "～から", "～ учраас, тул"], ["どうして", "どうして", "яагаад"], ["貸してください", "かしてください", "Түр зээлүүлнэ үү", "kashite kudasai"], ["いいですよ", "いいですよ", "Болно оо", "ii desu yo"], ["残念です", "ざんねんです", "Харамсалтай юм аа", "zannen desu"], ["ああ", "ああ", "Хөөх, аа (гайхсан аялга үг)"], ["いっしょにいかがですか", "いっしょにいかがですか", "Хамтдаа явбал ямар вэ?", "issho ni ikaga desu ka"], ["ちょっと……", "ちょっと……", "[～] жаахан тийм... (эелдгээр татгалзахад)"], ["だめですか", "だめですか", "Болохгүй юу?", "dame desu ka"], ["また今度お願いします", "またこんどおねがいします", "Дараагийн удаа болъё", "mata kondo onegaishimasu"]]}, {"id": "L10", "title": "Хичээл 10", "emoji": "10", "num": true, "words": [["あります", "あります", "байна (амьгүй, хөдөлдөггүй зүйл)"], ["います", "います", "байна (амьтай, хөдөлдөг зүйл)"], ["いろいろ", "いろいろ", "олон янз, төрөл бүрийн"], ["男の人", "おとこのひと", "эрэгтэй хүн", "otoko no hito"], ["女の人", "おんなのひと", "эмэгтэй хүн", "onna no hito"], ["男の子", "おとこのこ", "эрэгтэй хүүхэд, хөвгүүн", "otoko no ko"], ["女の子", "おんなのこ", "эмэгтэй хүүхэд, охин", "onna no ko"], ["犬", "いぬ", "нохой"], ["猫", "ねこ", "муур"], ["パンダ", "パンダ", "панда"], ["象", "ぞう", "заан"], ["木", "き", "мод, түлээ"], ["物", "もの", "юм, эд зүйл"], ["電池", "でんち", "зай, батарей"], ["箱", "はこ", "хайрцаг"], ["スイッチ", "スイッチ", "унтраалга, залгуур"], ["冷蔵庫", "れいぞうこ", "хөргөгч"], ["テーブル", "テーブル", "ширээ"], ["ベッド", "ベッド", "ор"], ["棚", "たな", "тавиур"], ["ドア", "ドア", "хаалга"], ["窓", "まど", "цонх"], ["ポスト", "ポスト", "шуудангийн хайрцаг"], ["ビル", "ビル", "өндөр барилга"], ["コンビニ", "コンビニ", "24 цагийн дэлгүүр"], ["公園", "こうえん", "цэцэрлэгт хүрээлэн, парк"], ["喫茶店", "きっさてん", "кафе, цайны газар"], ["～屋", "～や", "～-ийн дэлгүүр"], ["乗り場", "のりば", "автобус, таксины зогсоол"], ["県", "けん", "муж"], ["上", "うえ", "дээр, дээд тал"], ["下", "した", "доор, доод тал"], ["前", "まえ", "урд, өмнө тал"], ["うしろ", "うしろ", "ар, ард тал, хойно"], ["右", "みぎ", "баруун, баруун тал"], ["左", "ひだり", "зүүн, зүүн тал"], ["中", "なか", "дотор, дунд"], ["外", "そと", "гадна, гадаа"], ["隣", "となり", "зэргэлдээ, хөрш"], ["近く", "ちかく", "ойролцоо, ойрхон"], ["間", "あいだ", "хооронд, дунд"], ["～や～など", "～や～など", "～, ～ гэх мэт"], ["どうもすみません", "どうもすみません", "[Их] баярлалаа", "doumo sumimasen"], ["ナンプラー", "ナンプラー", "Нампла амтлагч"], ["コーナー", "コーナー", "тасаг (супермаркетийн булан)"], ["いちばん下", "いちばんした", "хамгийн доор"]]}, {"id": "L11", "title": "Хичээл 11", "emoji": "11", "num": true, "words": [["います", "います", "байна [хүүхэдтэй ～ / Японд ～]"], ["かかります", "かかります", "зарцуулна (цаг хугацаа, мөнгө)"], ["休みます", "やすみます", "амарна [ажилдаа очихгүй ～]"], ["1つ", "ひとつ", "нэг ширхэг"], ["2つ", "ふたつ", "хоёр ширхэг"], ["3つ", "みっつ", "гурван ширхэг"], ["4つ", "よっつ", "дөрвөн ширхэг"], ["5つ", "いつつ", "таван ширхэг"], ["6つ", "むっつ", "зургаан ширхэг"], ["7つ", "ななつ", "долоон ширхэг"], ["8つ", "やっつ", "найман ширхэг"], ["9つ", "ここのつ", "есөн ширхэг"], ["10", "とお", "арван ширхэг"], ["いくつ", "いくつ", "хэд, хэдэн ширхэг"], ["1人", "ひとり", "нэг хүн"], ["2人", "ふたり", "хоёр хүн"], ["～人", "～にん", "～ хүн"], ["～台", "～だい", "(машин, техник тоолох нэгж)"], ["～枚", "～まい", "(цаас, марк тоолох нэгж)"], ["～回", "～かい", "～ удаа"], ["りんご", "りんご", "алим"], ["みかん", "みかん", "бэрсүүт жүрж"], ["サンドイッチ", "サンドイッチ", "сэндвич"], ["カレーライス", "カレーライス", "карри райс"], ["アイスクリーム", "アイスクリーム", "зайрмаг"], ["切手", "きって", "шуудангийн марк"], ["はがき", "はがき", "ил захидал"], ["封筒", "ふうとう", "дугтуй"], ["両親", "りょうしん", "эцэг эх"], ["兄弟", "きょうだい", "ах дүү"], ["兄", "あに", "ах (өөрийн)"], ["お兄さん", "おにいさん", "ах (хүндэтгэл)"], ["姉", "あね", "эгч (өөрийн)"], ["お姉さん", "おねえさん", "эгч (хүндэтгэл)"], ["弟", "おとうと", "эрэгтэй дүү (өөрийн)"], ["弟さん", "おとうとさん", "эрэгтэй дүү (бусдын)"], ["妹", "いもうと", "эмэгтэй дүү (өөрийн)"], ["妹さん", "いもうとさん", "эмэгтэй дүү (бусдын)"], ["外国", "がいこく", "гадаад улс, хилийн чанад"], ["留学生", "りゅうがくせい", "гадаад оюутан"], ["クラス", "クラス", "анги, курс"], ["～時間", "～じかん", "～ цаг (хугацаа)"], ["～週間", "～しゅうかん", "～ долоо хоног"], ["～か月", "～かげつ", "～ сар"], ["～年", "～ねん", "～ жил"], ["～ぐらい", "～ぐらい", "～ орчим, ～ хэртэй"], ["どのくらい", "どのくらい", "хэдий хэр, хэр зэрэг"], ["全部で", "ぜんぶで", "нийт, нийтдээ"], ["みんな", "みんな", "бүгд, бүгдээрээ"], ["～だけ", "～だけ", "зөвхөн ～"], ["かしこまりました", "かしこまりました", "За ойлголоо (эелдэг)"], ["いいお天気ですね", "いいおてんきですね", "Цаг агаар сайхан байна шүү?", "ii otenki desu ne"], ["お出かけですか", "おでかけですか", "Гадагшаа гарах нь уу?", "odekake desu ka"], ["ちょっと～まで", "ちょっと～まで", "Ойрхон ～ хүртэл (түр гарчихаад ирье)", "chotto ~ made"], ["行ってらっしゃい", "いってらっしゃい", "Сайн яваад ирээрэй"], ["行ってきます", "いってきます", "Явчихаад ирье"], ["船便", "ふなびん", "усан онгоцоор явуулах шуудан"], ["航空便", "こうくうびん", "агаарын шуудан"], ["お願いします", "おねがいします", "～ж өгнө үү. Гуйж байна"], ["オーストラリア", "オーストラリア", "Австрали"]]}, {"id": "L12", "title": "Хичээл 12", "emoji": "12", "num": true, "words": [["簡単", "かんたん", "амархан, энгийн, хялбархан"], ["近い", "ちかい", "ойрхон"], ["遠い", "とおい", "хол"], ["速い", "はやい", "хурдан, эрт"], ["遅い", "おそい", "удаан, орой"], ["多い", "おおい", "олон, их [хүн ～]"], ["少ない", "すくない", "цөөн, цөөхөн [хүн ～]"], ["暖かい", "あたたかい", "дулаан, дулаахан"], ["涼しい", "すずしい", "сэрүүн, сэрүүхэн"], ["甘い", "あまい", "чихэрлэг, нялуун"], ["辛い", "からい", "халуун ногоотой"], ["重い", "おもい", "хүнд"], ["軽い", "かるい", "хөнгөн"], ["いい", "いい", "зүгээр, болно, сайн [кофе ～]"], ["季節", "きせつ", "улирал"], ["春", "はる", "хавар"], ["夏", "なつ", "зун"], ["秋", "あき", "намар"], ["冬", "ふゆ", "өвөл"], ["天気", "てんき", "цаг агаар, тэнгэр"], ["雨", "あめ", "бороо"], ["雪", "ゆき", "цас"], ["曇り", "くもり", "үүлэрхэг"], ["ホテル", "ホテル", "зочид буудал"], ["空港", "くうこう", "нисэх онгоцны буудал"], ["海", "うみ", "далай, тэнгис"], ["世界", "せかい", "дэлхий, ертөнц"], ["パーティー", "パーティー", "үдэшлэг"], ["お祭り", "おまつり", "баяр ёслол"], ["すき焼き", "すきやき", "сүкияки (үхрийн мах, ногоотой халуун тогоо)"], ["刺身", "さしみ", "сашими (нимгэн хэрчсэн түүхий загас)"], ["おすし", "おすし", "суши"], ["てんぷら", "てんぷら", "тэмпүра (тосонд шарсан далайн хүнс, ногоо)"], ["豚肉", "ぶたにく", "гахайн мах"], ["とり肉", "とりにく", "тахианы мах"], ["牛肉", "ぎゅうにく", "үхрийн мах"], ["レモン", "レモン", "нимбэг"], ["生け花", "いけばな", "цэцгийн урлаг, икэбана"], ["紅葉", "もみじ", "намрын улаан, шар навчтай мод"], ["どちら", "どちら", "яг аль нь"], ["どちらも", "どちらも", "хоёулаа, аль аль нь"], ["いちばん", "いちばん", "хамгийн"], ["ずっと", "ずっと", "эртнээс, үргэлж, дандаа"], ["初めて", "はじめて", "анх удаа"], ["ただいま", "ただいま", "Би ирлээ (гэртээ орж ирэхдээ)"], ["お帰りなさい", "おかえりなさい", "Сайн явж ирэв үү (гэрт байгаа хүн)"], ["すごい人ですね", "すごいひとですね", "Хөөх, мундаг хүн юм аа", "sugoi hito desu ne"], ["疲れました", "つかれました", "ядарлаа, ядарсан"]]}, {"id": "L13", "title": "Хичээл 13", "emoji": "13", "num": true, "words": [["遊びます", "あそびます", "тоглоно, хөгжилдөнө"], ["泳ぎます", "およぎます", "сэлнэ"], ["迎えます", "むかえます", "угтана, тосно, хүлээн авна"], ["疲れます", "つかれます", "ядарна, сульдана"], ["結婚します", "けっこんします", "гэрлэнэ"], ["買い物します", "かいものします", "дэлгүүр хэснэ, юм худалдан авна"], ["食事します", "しょくじします", "хооллоно"], ["散歩します", "さんぽします", "явган зугаална [цэцэрлэгт хүрээлэнгээр ～]"], ["大変", "たいへん", "хэцүү, хүнд, төвөгтэй"], ["欲しい", "ほしい", "～-ийг хүсэж байна, ～тай болмоор байна"], ["広い", "ひろい", "өргөн уудам, цэлгэр"], ["狭い", "せまい", "давчуу, бачуухан"], ["プール", "プール", "усан сан"], ["川", "かわ", "гол"], ["美術", "びじゅつ", "дүрслэх урлаг"], ["釣り", "つり", "загасны ан"], ["スキー", "スキー", "цана"], ["週末", "しゅうまつ", "долоо хоногийн эцэс"], ["お正月", "おしょうがつ", "Цагаан сар, шинэ жил"], ["～ごろ", "～ごろ", "～ үе, орчим (цаг хугацаанд)"], ["何か", "なにか", "ямар нэг зүйл"], ["どこか", "どこか", "хаа нэг газар"], ["のどがかわきます", "のどがかわきます", "Хоолой хатаж байна (цангах)", "nodo ga kawakimasu"], ["おなかがすきます", "おなかがすきます", "Гэдэс өлсөж байна", "onaka ga sukimasu"], ["そうしましょう", "そうしましょう", "Тэгье", "sou shimashou"], ["ご注文は？", "ごちゅうもんは？", "Та юу захиалах вэ?", "gochuumon wa?"], ["定食", "ていしょく", "иж бүрдэл хоол"], ["牛どん", "ぎゅうどん", "Гюүдон (үхрийн махтай будаа)"], ["少々お待ちください", "しょうしょうおまちください", "[Түр] хүлээнэ үү?", "shoushou omachi kudasai"], ["～でございます", "～でございます", "юм (です-ийн хүндэтгэлийн хэлбэр)", "~de gozaimasu"], ["別々に", "べつべつに", "тус тусад нь, салангид"]]}, {"id": "L14", "title": "Хичээл 14", "emoji": "14", "num": true, "words": [["つけます", "つけます", "асаана"], ["消します", "けします", "унтраана"], ["開けます", "あけます", "нээнэ, онгойлгоно"], ["閉めます", "しめます", "хаана"], ["急ぎます", "いそぎます", "яарна"], ["待ちます", "まちます", "хүлээнэ"], ["持ちます", "もちます", "барина, гартаа барьж явна"], ["取ります", "とります", "гар сунгаж авна, түүнэ, хураана"], ["手伝います", "てつだいます", "тусална"], ["呼びます", "よびます", "дуудна"], ["話します", "はなします", "ярина, ярилцана"], ["使います", "つかいます", "хэрэглэнэ, ашиглана"], ["止めます", "とめます", "зогсооно"], ["見せます", "みせます", "үзүүлнэ, харуулна"], ["教えます", "おしえます", "зааж өгнө [гэрийн хаягаа ～]"], ["座ります", "すわります", "сууна"], ["立ちます", "たちます", "зогсоно, босно"], ["入ります", "はいります", "орно [кафед ～]"], ["出ます", "でます", "гарна [кафеэс ～]"], ["降ります", "ふります", "хур тунадас орно [бороо ～]"], ["コピーします", "コピーします", "хувилна, олшруулна"], ["電気", "でんき", "гэрэл"], ["エアコン", "エアコン", "агааржуулагч"], ["パスポート", "パスポート", "паспорт"], ["名前", "なまえ", "нэр"], ["住所", "じゅうしょ", "гэрийн хаяг"], ["地図", "ちず", "газрын зураг"], ["塩", "しお", "давс"], ["砂糖", "さとう", "элсэн чихэр"], ["問題", "もんだい", "сэдэв, асуудал"], ["答え", "こたえ", "хариулт"], ["読み方", "よみかた", "унших арга"], ["～方", "～かた", "～х арга, ～ арга барил"], ["まっすぐ", "まっすぐ", "шууд, шулуун"], ["ゆっくり", "ゆっくり", "аажим, удаан, алгуурхан"], ["すぐ", "すぐ", "шууд, даруй"], ["また", "また", "бас, бас дахин"], ["あとで", "あとで", "дараа, сүүлд"], ["もう少し", "もうすこし", "дахиад жаахан, бас жаахан", "mou sukoshi"], ["もう～", "もう～", "～ илүү, өөр бас нэг ～, дахиад ～"], ["さあ", "さあ", "За (урам өгөх, уриалах үед)"], ["あれ？", "あれ？", "Хөөх, хараач, юу вэ? (гайхахад)"], ["信号を右へ曲がってください", "しんごうをみぎへまがってください", "Гэрлэн дохиогоор баруун тийш эргээрэй", "shingou o migi e magatte kudasai"], ["これでお願いします", "これでおねがいします", "Үүнээс авна уу (мөнгө өгөхдөө)", "kore de onegaishimasu"], ["お釣り", "おつり", "хариулт мөнгө"]]}];
+
+var HIRA="あ a,い i,う u,え e,お o,か ka,き ki,く ku,け ke,こ ko,さ sa,し shi,す su,せ se,そ so,た ta,ち chi,つ tsu,て te,と to,な na,に ni,ぬ nu,ね ne,の no,は ha,ひ hi,ふ fu,へ he,ほ ho,ま ma,み mi,む mu,め me,も mo,や ya,ゆ yu,よ yo,ら ra,り ri,る ru,れ re,ろ ro,わ wa,を wo,ん n";
+var KATA="ア a,イ i,ウ u,エ e,オ o,カ ka,キ ki,ク ku,ケ ke,コ ko,サ sa,シ shi,ス su,セ se,ソ so,タ ta,チ chi,ツ tsu,テ te,ト to,ナ na,ニ ni,ヌ nu,ネ ne,ノ no,ハ ha,ヒ hi,フ fu,ヘ he,ホ ho,マ ma,ミ mi,ム mu,メ me,モ mo,ヤ ya,ユ yu,ヨ yo,ラ ra,リ ri,ル ru,レ re,ロ ro,ワ wa,ヲ wo,ン n";
+function kd(s){return s.split(",").map(function(p){var a=p.split(" ");return [a[0],a[0],a[1]];});}
+var KANA=[{id:"hira",title:"Хирагана",emoji:"あ",kana:true,words:kd(HIRA)},{id:"kata",title:"Катакана",emoji:"ア",kana:true,words:kd(KATA)}];
+var ALL=KANA.concat(WORDS), BYID={};
+ALL.forEach(function(d){BYID[d.id]=d;});
+
+/* romaji */
+var R1={"あ":"a","い":"i","う":"u","え":"e","お":"o","か":"ka","き":"ki","く":"ku","け":"ke","こ":"ko","が":"ga","ぎ":"gi","ぐ":"gu","げ":"ge","ご":"go","さ":"sa","し":"shi","す":"su","せ":"se","そ":"so","ざ":"za","じ":"ji","ず":"zu","ぜ":"ze","ぞ":"zo","た":"ta","ち":"chi","つ":"tsu","て":"te","と":"to","だ":"da","ぢ":"ji","づ":"zu","で":"de","ど":"do","な":"na","に":"ni","ぬ":"nu","ね":"ne","の":"no","は":"ha","ひ":"hi","ふ":"fu","へ":"he","ほ":"ho","ば":"ba","び":"bi","ぶ":"bu","べ":"be","ぼ":"bo","ぱ":"pa","ぴ":"pi","ぷ":"pu","ぺ":"pe","ぽ":"po","ま":"ma","み":"mi","む":"mu","め":"me","も":"mo","や":"ya","ゆ":"yu","よ":"yo","ら":"ra","り":"ri","る":"ru","れ":"re","ろ":"ro","わ":"wa","を":"o","ん":"n","ぁ":"a","ぃ":"i","ぅ":"u","ぇ":"e","ぉ":"o","ゔ":"vu","～":"~","？":"?","、":", ","。":"."};
+var YO={"き":"ky","ぎ":"gy","し":"sh","じ":"j","ち":"ch","に":"ny","ひ":"hy","び":"by","ぴ":"py","み":"my","り":"ry"};
+var EX={"て":{"ぃ":"ti"},"で":{"ぃ":"di"},"ふ":{"ぁ":"fa","ぃ":"fi","ぇ":"fe","ぉ":"fo"},"し":{"ぇ":"she"},"じ":{"ぇ":"je"},"ち":{"ぇ":"che"}};
+function toH(s){return s.replace(/[ァ-ヶ]/g,function(c){return String.fromCharCode(c.charCodeAt(0)-0x60);});}
+function romaji(k){
+  var s=toH(k),o="",dbl=false;
+  for(var i=0;i<s.length;i++){
+    var c=s[i],n=s[i+1],r;
+    if(c==="っ"){dbl=true;continue;}
+    if(c==="ー"){var m=o.match(/[aeiou]$/);if(m)o+=m[0];continue;}
+    if(YO[c]&&(n==="ゃ"||n==="ゅ"||n==="ょ")){r=YO[c]+{"ゃ":"a","ゅ":"u","ょ":"o"}[n];i++;}
+    else if(EX[c]&&EX[c][n]){r=EX[c][n];i++;}
+    else r=R1[c]||c;
+    if(dbl&&/^[a-z]/.test(r)){r=(r.indexOf("ch")===0?"t":r[0])+r;}
+    dbl=false;o+=r;
+  }
+  return o;
+}
+function rom(w){return w[3]||romaji(w[1]);}
+
+/* storage */
+function ld(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d;}catch(e){return d;}}
+function sv(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+var M=ld("jpMastery1",{});
+var S=ld("jpStats1",{best:0,played:0}); if(!S.days)S.days=[];
+var CFG=ld("jpCfg3",{dir:"jp",read:"1",len:"10",qt:"mix",sel:["L1"]});
+CFG.sel=(CFG.sel||[]).filter(function(x){return BYID[x];});
+function saveAll(){sv("jpMastery1",M);sv("jpStats1",S);sv("jpCfg3",CFG);}
+function key(d,w){return d+"::"+w[0];}
+function isM(k){return M[k]&&M[k].c>=3;}
+
+/* helpers */
+function $(id){return document.getElementById(id);}
+function $$(q){return Array.prototype.slice.call(document.querySelectorAll(q));}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+function shuf(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function sz(s){var l=s.length;return l>13?"xxs":l>8?"xs":l>5?"s":"";}
+function buzz(ms){try{if(navigator.vibrate)navigator.vibrate(ms);}catch(e){}}
+var tt;function toast(m){var t=$("toast");t.textContent=m;t.classList.add("show");clearTimeout(tt);tt=setTimeout(function(){t.classList.remove("show");},2200);}
+function today(){var d=new Date();return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();}
+function dayStr(off){var d=new Date();d.setDate(d.getDate()-off);return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();}
+function markDay(){var t=today();if(S.days.indexOf(t)<0){S.days.push(t);if(S.days.length>400)S.days=S.days.slice(-400);}saveAll();}
+function streak(){var n=0,off=S.days.indexOf(today())>-1?0:1;while(S.days.indexOf(dayStr(off+n))>-1)n++;return n;}
+function deckStat(d){var m=0;d.words.forEach(function(w){if(isM(key(d.id,w)))m++;});return {m:m,t:d.words.length};}
+function weak(){var o=[];ALL.forEach(function(d){d.words.forEach(function(w){var m=M[key(d.id,w)];if(m&&m.w>0&&m.c<3)o.push({d:d.id,w:w});});});return o;}
+function pool(){var o=[];CFG.sel.forEach(function(id){BYID[id].words.forEach(function(w){o.push({d:id,w:w});});});return o;}
+function isK(it){return BYID[it.d]&&BYID[it.d].kana;}
+
+/* speech */
+var jv=null;
+function pv(){try{jv=speechSynthesis.getVoices().filter(function(v){return /^ja/i.test(v.lang);})[0]||null;}catch(e){}}
+if("speechSynthesis" in window){pv();speechSynthesis.onvoiceschanged=pv;}
+function say(t){
+  if(!("speechSynthesis" in window)){toast("Энэ төхөөрөмж дуудлага дэмжихгүй байна");return;}
+  try{speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(t.replace(/～/g,""));u.lang="ja-JP";u.rate=.85;if(jv)u.voice=jv;speechSynthesis.speak(u);}catch(e){toast("Дуудлага тоглуулж чадсангүй");}
+}
+var SND='<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8v4h3l4 3.5v-11L6.5 8h-3Z"/><path d="M13.5 7.5a3.5 3.5 0 0 1 0 5"/><path d="M15.7 5.5a6.5 6.5 0 0 1 0 9"/></svg>';
+
+
+var IC={
+flame:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c.6 3.2-1.4 5-3 6.9C7.6 10.6 6 12.4 6 15a6 6 0 0 0 12 0c0-2.2-1-4.1-2.3-5.6-.3 1.4-1 2.4-2.2 2.9.5-3.6-.3-7.6-1.5-10.3Z"/></svg>',
+check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="m7.8 12.3 2.8 2.8 5.6-5.8"/></svg>',
+x:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="9.5"/><path d="m9 9 6 6M15 9l-6 6"/></svg>',
+trophy:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v5a5 5 0 0 1-10 0V4Z"/><path d="M7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3M12 14v4M8 21h8M9 18h6"/></svg>',
+cards:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="13" height="14" rx="2.5"/><path d="M8 3h10.5A2.5 2.5 0 0 1 21 5.5V16"/></svg>',
+quiz:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8 8h8M8 12h5"/><path d="m9 16.5 1.6 1.5L14 15"/></svg>',
+repeat:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2l3 3-3 3"/><path d="M4 11V9a4 4 0 0 1 4-4h12"/><path d="M7 22l-3-3 3-3"/><path d="M20 13v2a4 4 0 0 1-4 4H4"/></svg>',
+party:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.3l-5.8 3.1 1.1-6.5L2.6 9.3l6.5-.9z"/></svg>'
+};
+$$("[data-ic]").forEach(function(e){e.innerHTML=IC[e.dataset.ic]||"";});
+$("fsay").innerHTML=SND;
+/* ---------- tabs ---------- */
+var TITLES={home:"日本語",flash:"Флашкарт",quiz:"Шалгалт",prog:"Миний ахиц"};
+function setTab(t){
+  $$(".pane").forEach(function(p){p.classList.toggle("on",p.id==="p-"+t);});
+  $$(".tab").forEach(function(b){b.classList.toggle("on",b.dataset.tab===t);});
+  $("ab-title").textContent=TITLES[t];
+  $("content").scrollTop=0;
+  render();
+}
+$$("[data-tab]").forEach(function(b){b.addEventListener("click",function(){setTab(b.dataset.tab);});});
+
+/* ---------- render ---------- */
+function tileHTML(d){
+  var st=deckStat(d),on=CFG.sel.indexOf(d.id)>-1,pct=st.t?st.m/st.t*100:0;
+  if(d.kana) return '<button class="tile k'+(on?' sel':'')+'" data-id="'+d.id+'"><span class="tn">'+d.emoji+'</span><span><span class="tl">'+d.title+'</span><small>'+st.m+' / '+st.t+'</small></span><i class="tb" style="width:'+pct+'%"></i></button>';
+  return '<button class="tile'+(on?' sel':'')+'" data-id="'+d.id+'"><span class="tn">'+d.emoji+'</span><span class="tl">'+st.t+' үг</span><i class="tb" style="width:'+pct+'%"></i></button>';
+}
+function render(){
+  var tot=0,mast=0;ALL.forEach(function(d){var s=deckStat(d);tot+=s.t;mast+=s.m;});
+  var pct=tot?Math.round(mast/tot*100):0, stk=streak(), wk=weak();
+  $("ab-streak").textContent=stk; $("s-streak").textContent=stk;
+  $("s-mast").textContent=mast; $("s-best").textContent=S.best+"%";
+  $("h-ring").style.setProperty("--p",pct); $("h-pct").textContent=pct+"%";
+  $("h-sub").textContent=mast+" / "+tot+" үг цээжилсэн";
+  $("h-msg").textContent = stk>0&&S.days.indexOf(today())>-1 ? "Өнөөдөр сайн ажиллалаа!" : "Өнөөдөр үгээ давтъя";
+  $("h-weak").style.display=wk.length?"":"none"; $("h-weak-n").textContent=wk.length+" үг давтах шаардлагатай";
+  $("h-lessons").innerHTML=WORDS.map(function(d){var s=deckStat(d);return '<button class="lcard" data-open="'+d.id+'"><div class="n">'+d.emoji+'</div><div class="l">'+d.title+'</div><div class="c">'+s.m+' / '+s.t+' цээжилсэн</div><div class="bar"><i style="width:'+(s.m/s.t*100)+'%"></i></div></button>';}).join("");
+  $$(".pick").forEach(function(g){g.innerHTML=(g.dataset.k?KANA:WORDS).map(tileHTML).join("");});
+  var allOn=WORDS.every(function(d){return CFG.sel.indexOf(d.id)>-1;});
+  $$(".selall").forEach(function(b){b.textContent=allOn?"Цуцлах":"Бүгдийг сонгох";});
+  var n=pool().length;
+  $("n-flash").textContent=n+" үг"; $("n-quiz").textContent=n+" үг";
+  $("go-flash").disabled=!n; $("go-quiz").disabled=n<4;
+  $$("[data-set]").forEach(function(sg){var v=CFG[sg.dataset.set];sg.querySelectorAll("button").forEach(function(b){b.classList.toggle("on",b.dataset.v===v);});});
+  $("pr-list").innerHTML=ALL.map(function(d){var s=deckStat(d);return '<div class="pr"><div class="n">'+d.emoji+'</div><div class="m"><b>'+d.title+'</b><div class="bar"><i style="width:'+(s.m/s.t*100)+'%"></i></div></div><div class="v">'+s.m+'/'+s.t+'</div></div>';}).join("");
+  $("pr-weak").innerHTML = wk.length ? wk.slice(0,60).map(function(it){var w=it.w,k=isK(it);return '<div class="wr"><div class="a">'+esc(w[0])+(w[0]!==w[1]?'<small>'+esc(w[1])+'</small>':'')+'</div><div class="b">'+esc(k?rom(w):w[2])+'</div></div>';}).join("") : '<div class="empty">Одоогоор алдсан үг алга</div>';
+  $("pr-weak-go").style.display=wk.length?"":"none";
+  saveAll();
+}
+document.addEventListener("click",function(e){
+  var t=e.target.closest(".pick .tile");
+  if(t){var id=t.dataset.id,i=CFG.sel.indexOf(id);if(i>-1)CFG.sel.splice(i,1);else CFG.sel.push(id);buzz(8);render();return;}
+  var sa=e.target.closest(".selall");
+  if(sa){var ids=WORDS.map(function(d){return d.id;}),all=WORDS.every(function(d){return CFG.sel.indexOf(d.id)>-1;});CFG.sel=CFG.sel.filter(function(x){return ids.indexOf(x)<0;});if(!all)CFG.sel=CFG.sel.concat(ids);render();return;}
+  var sg=e.target.closest("[data-set] button");
+  if(sg){CFG[sg.parentNode.dataset.set]=sg.dataset.v;render();return;}
+  var op=e.target.closest("[data-open]");
+  if(op){CFG.sel=[op.dataset.open];setTab("flash");return;}
+});
+$("h-weak").addEventListener("click",function(){var w=weak();if(w.length)startFlash(w);});
+$("pr-weak-go").addEventListener("click",function(){var w=weak();if(w.length)startFlash(w);});
+var rs=0;
+$("reset").addEventListener("click",function(){
+  if(!rs){rs=1;this.textContent="Итгэлтэй байна уу? Дахин дарна уу";var b=this;setTimeout(function(){rs=0;b.textContent="Ахицаа устгах";},3000);return;}
+  M={};S={best:0,played:0,days:[]};rs=0;this.textContent="Ахицаа устгах";render();toast("Ахиц устгагдлаа");
+});
+
+/* ---------- overlays ---------- */
+function openOv(id){$$(".ov").forEach(function(o){o.classList.toggle("on",o.id===id);});}
+function closeOv(){$$(".ov").forEach(function(o){o.classList.remove("on");});$("q-sheet").classList.remove("on");render();}
+$$("[data-close]").forEach(function(b){b.addEventListener("click",closeOv);});
+
+/* ---------- flashcards ---------- */
+var F={};
+function startFlash(items){
+  if(!items.length)return;
+  F={q:shuf(items),i:0,tot:items.length,ok:0,no:0,seen:{},items:items};
+  openOv("ov-flash");drawCard();
+}
+function drawCard(){
+  var it=F.q[F.i],w=it.w,k=isK(it),d=BYID[it.d],tag=esc(d.title);
+  var rd=CFG.read==="1"&&w[0]!==w[1];
+  
+  var jpF='<div class="tag">'+tag+'</div>'+(rd?'<div class="rd">'+esc(w[1])+'</div>':'')+'<div class="bigw '+sz(w[0])+'">'+esc(w[0])+'</div><div class="hint">Дарж эргүүл · шударч ангил</div>';
+  var mnF='<div class="tag">'+tag+'</div>'+'<div class="mn'+(w[2].length>22?' s':'')+'">'+esc(w[2])+'</div><div class="hint">Дарж эргүүл</div>';
+  var back='<div class="tag">'+tag+'</div>'+(w[0]!==w[1]?'<div class="rd">'+esc(w[1])+'</div>':'')+'<div class="bigw '+sz(w[0])+'">'+esc(w[0])+'</div>'+(k?'':'<div class="rom">'+esc(rom(w))+'</div>')+'<div class="dv"></div><div class="mn'+(w[2].length>22?' s':'')+'">'+esc(k?rom(w):w[2])+'</div>';
+  $("f-front").innerHTML=(k||CFG.dir==="jp")?jpF:mnF;
+  $("f-back").innerHTML=back;
+  var c=$("fcard");c.style.transition="none";c.classList.remove("flip");void c.offsetWidth;c.style.transition="";
+  var fw=$("fwrap");fw.style.transition="none";fw.style.transform="scale(.94)";fw.style.opacity="0";void fw.offsetWidth;fw.style.transition="";fw.style.transform="";fw.style.opacity="";
+  $$(".stamp").forEach(function(x){x.style.opacity=0;});
+  $("f-cnt").textContent=(F.i+1)+"/"+F.q.length;
+  $("f-bar").style.width=(F.i/F.q.length*100)+"%";
+}
+function flip(){$("fcard").classList.toggle("flip");}
+function fNext(ok){
+  var it=F.q[F.i],k=key(it.d,it.w),m=M[k]||{c:0,w:0};
+  if(ok){if(!F.seen[k])F.ok++;m.c++;}
+  else{if(!F.seen[k])F.no++;F.seen[k]=1;F.q.push(it);m.c=0;m.w++;}
+  M[k]=m;
+  var fw=$("fwrap");fw.style.transform="translateX("+(ok?140:-140)+"%) rotate("+(ok?18:-18)+"deg)";fw.style.opacity="0";
+  buzz(ok?10:25);
+  setTimeout(function(){
+    F.i++;
+    if(F.i>=F.q.length){markDay();$("fd-ok").textContent=F.ok;$("fd-no").textContent=F.no;$("fd-sub").textContent=F.tot+" карт давтлаа";openOv("ov-fdone");return;}
+    drawCard();
+  },230);
+}
+
+$("fwrap").addEventListener("click",function(e){if(e.target.closest("[data-say]")){e.stopPropagation();say(F.q[F.i].w[1]);}});
+(function(){
+  var fw=$("fwrap"),x0=0,y0=0,dx=0,down=false,moved=false;
+  fw.addEventListener("pointerdown",function(e){if(e.target.closest("[data-say]"))return;down=true;moved=false;x0=e.clientX;y0=e.clientY;dx=0;fw.classList.add("drag");});
+  fw.addEventListener("pointermove",function(e){
+    if(!down)return;dx=e.clientX-x0;if(Math.abs(dx)>6)moved=true;
+    if(!moved)return;
+    fw.style.transform="translateX("+dx+"px) rotate("+(dx/18)+"deg)";
+    var a=Math.min(Math.abs(dx)/90,1),so=document.getElementById("st-ok"),sn=document.getElementById("st-no");
+    if(so)so.style.opacity=dx>0?a:0; if(sn)sn.style.opacity=dx<0?a:0;
+  });
+  function end(){
+    if(!down)return;down=false;fw.classList.remove("drag");
+    if(!moved){flip();return;}
+    if(Math.abs(dx)>90){fNext(dx>0);}
+    else{fw.style.transform="";$$(".stamp").forEach(function(s){s.style.opacity=0;});}
+  }
+  fw.addEventListener("pointerup",end);fw.addEventListener("pointercancel",end);fw.addEventListener("pointerleave",function(){if(down&&moved)end();});
+})();
+$("fd-again").addEventListener("click",function(){startFlash(F.items);});
+$("fd-quiz").addEventListener("click",function(){startQuiz(F.items);});
+$("go-flash").addEventListener("click",function(){startFlash(pool());});
+
+/* ---------- quiz ---------- */
+var Q={};
+function startQuiz(items){
+  if(items.length<4){toast("Шалгалтад дор хаяж 4 үг хэрэгтэй");return;}
+  var n=CFG.len==="0"?items.length:Math.min(+CFG.len,items.length);
+  Q={items:items,list:shuf(items).slice(0,n),i:0,ok:0,str:0,best:0,log:[]};
+  openOv("ov-quiz");drawQ();
+}
+function drawQ(){
+  var it=Q.list[Q.i],w=it.w,k=isK(it);
+  var jm=CFG.qt==="jm"?true:CFG.qt==="mj"?false:Math.random()<.6;
+  Q.cur={it:it,jm:jm};
+  function core(m){return m.split(/[,(\[]/)[0].trim().toLowerCase();}
+  var cw=core(w[2]);
+  var others=Q.items.filter(function(x){return x!==it&&x.w[0]!==w[0]&&x.w[1]!==w[1]&&core(x.w[2])!==cw&&x.w[2].indexOf(cw)<0&&w[2].indexOf(core(x.w[2]))<0;});
+  if(others.length<3)others=ALL.filter(function(d){return !!d.kana===!!isK(it);}).reduce(function(a,d){return a.concat(d.words.map(function(x){return {d:d.id,w:x};}));},[]).filter(function(x){return x.w[0]!==w[0]&&core(x.w[2])!==cw;});
+  var seen={},dist=[];shuf(others).forEach(function(o){var kk=jm?o.w[2]:o.w[0];if(!seen[kk]&&dist.length<3){seen[kk]=1;dist.push(o);}});
+  Q.opts=shuf(dist.concat([it]));
+  $("q-card").innerHTML = jm
+    ? '<button class="sb" data-say>'+SND+'</button><div class="pr2">'+(k?"Дуудлагыг сонго":"Утгыг нь сонго")+'</div>'+(!k&&w[0]!==w[1]?'<div class="rd">'+esc(w[1])+'</div>':'')+'<div class="bigw '+sz(w[0])+'">'+esc(w[0])+'</div>'
+    : '<div class="pr2">'+(k?"Үсгийг сонго":"Япон үгийг сонго")+'</div><div class="mn'+(w[2].length>22?' s':'')+'">'+esc(w[2])+'</div>';
+  $("q-opts").className="opts";
+  $("q-opts").innerHTML=Q.opts.map(function(o,i){
+    var lab=jm?'<span>'+esc(k?rom(o.w):o.w[2])+'</span>':'<span class="jo">'+esc(o.w[0])+'</span>'+(o.w[0]!==o.w[1]?'<span class="sub">'+esc(o.w[1])+'</span>':'');
+    return '<button class="opt" data-i="'+i+'"><span class="k">'+(i+1)+'</span>'+lab+'</button>';
+  }).join("");
+  $("q-bar").style.width=(Q.i/Q.list.length*100)+"%";
+  $("q-str").textContent=Q.str;
+  $("q-sheet").classList.remove("on");
+  $("ov-quiz").querySelector(".ovbody").scrollTop=0;
+}
+$("q-card").addEventListener("click",function(e){if(e.target.closest("[data-say]"))say(Q.cur.it.w[1]);});
+$("q-opts").addEventListener("click",function(e){var b=e.target.closest(".opt");if(b&&!$("q-opts").classList.contains("done"))answer(+b.dataset.i);});
+function answer(i){
+  var it=Q.cur.it,w=it.w,right=Q.opts[i]===it,k=key(it.d,w),m=M[k]||{c:0,w:0},kn=isK(it);
+  $("q-opts").classList.add("done");
+  var bs=$("q-opts").querySelectorAll(".opt");
+  Q.opts.forEach(function(o,j){if(o===it)bs[j].classList.add("ok");});
+  if(!right)bs[i].classList.add("bad");
+  if(right){Q.ok++;Q.str++;Q.best=Math.max(Q.best,Q.str);m.c++;}else{Q.str=0;m.c=0;m.w++;}
+  M[k]=m;Q.log.push({it:it,ok:right});
+  buzz(right?12:[30,40,30]);
+  var sh=$("q-sheet");sh.className="sheet "+(right?"ok":"no");
+  var praise=["Зөв!","Гайхалтай!","Яг зөв!","すごい！","Мундаг!"];
+  $("qs-h").innerHTML=IC[right?"check":"x"]+"<span>"+(right?praise[Math.floor(Math.random()*praise.length)]:"Буруу байна")+"</span>";
+  $("qs-a").innerHTML=(right?"":"Зөв хариулт: ")+'<b>'+esc(w[0])+'</b>'+(w[0]!==w[1]?' ('+esc(w[1])+')':'')+' · '+esc(rom(w))+(kn?'':' — '+esc(w[2]));
+  $("q-next").className="cta"+(right?" okc":"");
+  $("q-next").textContent=Q.i+1>=Q.list.length?"Дүнгээ харах":"Үргэлжлүүлэх";
+  $("q-str").textContent=Q.str;
+  say(w[1]);
+  setTimeout(function(){sh.classList.add("on");},120);
+}
+$("q-next").addEventListener("click",function(){Q.i++;if(Q.i>=Q.list.length)finish();else drawQ();});
+function finish(){
+  var n=Q.list.length,pct=Math.round(Q.ok/n*100),nb=pct>S.best&&S.played>0;
+  S.played++;if(pct>S.best)S.best=pct;markDay();
+  $("q-sheet").classList.remove("on");
+  $("r-ring").style.setProperty("--p",pct);$("r-pct").textContent=pct+"%";
+  $("r-title").textContent=pct===100?"Төгс! 完璧！":pct>=80?"Маш сайн! すごい！":pct>=50?"Сайн байна! がんばって！":"Дахиад давтъя!";
+  $("r-sub").textContent=n+" асуултаас "+Q.ok+" зөв";
+  $("r-badge").innerHTML=nb?'<span class="badge">'+IC.trophy+' Шинэ дээд оноо!</span>':"";
+  $("r-ok").textContent=Q.ok;$("r-bad").textContent=n-Q.ok;$("r-str").textContent=Q.best;
+  var wrong=Q.log.filter(function(l){return !l.ok;});
+  $("r-flash").style.display=wrong.length?"":"none";
+  $("r-list").innerHTML=Q.log.slice().sort(function(a,b){return a.ok-b.ok;}).map(function(l){var w=l.it.w,k=isK(l.it);return '<div class="wr" style="border-left-color:'+(l.ok?'var(--green)':'var(--red)')+'"><div class="a">'+esc(w[0])+(w[0]!==w[1]?'<small>'+esc(w[1])+'</small>':'')+'</div><div class="b">'+esc(k?rom(w):w[2])+'</div></div>';}).join("");
+  openOv("ov-res");
+}
+$("r-again").addEventListener("click",function(){startQuiz(Q.items);});
+$("r-flash").addEventListener("click",function(){startFlash(Q.log.filter(function(l){return !l.ok;}).map(function(l){return l.it;}));});
+$("go-quiz").addEventListener("click",function(){startQuiz(pool());});
+
+document.addEventListener("keydown",function(e){
+  if($("ov-quiz").classList.contains("on")){
+    if(/^[1-4]$/.test(e.key)&&!$("q-opts").classList.contains("done"))answer(+e.key-1);
+    else if(e.key==="Enter"&&$("q-sheet").classList.contains("on"))$("q-next").click();
+  } else if($("ov-flash").classList.contains("on")){
+    if(e.key===" ")flip();else if(e.key==="ArrowRight")fNext(true);else if(e.key==="ArrowLeft")fNext(false);
+  }
+});
+
+render();
+})();
+</script>
+</body>
+</html>
